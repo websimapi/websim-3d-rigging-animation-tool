@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Rigging & Animation Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+        "tensorflow": "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.15.0/dist/tf.min.js"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>3D Rigging & Animation Tool</h1>
+            <div class="toolbar">
+                <button id="import-model">Import Model</button>
+                <button id="auto-rig" disabled>Auto-Rig</button>
+                <button id="edit-skeleton" disabled>Edit Skeleton</button>
+                <button id="animate" disabled>Animate</button>
+                <button id="export" disabled>Export</button>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="canvas-container">
+                <canvas id="3d-canvas"></canvas>
+                <div class="loading-indicator hidden">
+                    <div class="spinner"></div>
+                    <p>Processing...</p>
+                </div>
+            </div>
+            
+            <div class="side-panel">
+                <div class="panel-section" id="model-panel">
+                    <h3>Model</h3>
+                    <div class="drop-area">
+                        <p>Drop 3D model here or</p>
+                        <input type="file" id="model-input" accept=".glb,.gltf,.fbx,.obj">
+                        <label for="model-input">Select File</label>
+                    </div>
+                    <div class="model-info hidden">
+                        <p>Name: <span id="model-name">-</span></p>
+                        <p>Vertices: <span id="model-vertices">-</span></p>
+                        <p>Triangles: <span id="model-triangles">-</span></p>
+                    </div>
+                </div>
+                
+                <div class="panel-section hidden" id="rig-panel">
+                    <h3>Rigging</h3>
+                    <div class="control-group">
+                        <label>Skeleton Complexity</label>
+                        <input type="range" id="skeleton-complexity" min="1" max="5" value="3">
+                        <span id="complexity-value">Medium</span>
+                    </div>
+                    <button id="generate-skeleton">Generate Skeleton</button>
+                    <div class="bone-list">
+                        <!-- Will be filled with bone controls -->
+                    </div>
+                </div>
+                
+                <div class="panel-section hidden" id="animation-panel">
+                    <h3>Animation</h3>
+                    <div class="timeline">
+                        <div class="timeline-controls">
+                            <button id="play-pause"><span class="icon">▶</span></button>
+                            <button id="add-keyframe">+ Keyframe</button>
+                            <input type="range" id="timeline-scrubber" min="0" max="100" value="0">
+                            <span id="frame-counter">0 / 100</span>
+                        </div>
+                        <div class="keyframes-container">
+                            <!-- Will be filled with keyframe markers -->
+                        </div>
+                    </div>
+                    <div class="animation-list">
+                        <h4>Animations</h4>
+                        <button id="new-animation">+ New Animation</button>
+                        <ul id="animation-list">
+                            <!-- Will be filled with animations -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <p id="status-message">Ready. Import a 3D model to begin.</p>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="export-modal">
+        <div class="modal-content">
+            <h2>Export Model</h2>
+            <div class="export-options">
+                <div class="option">
+                    <input type="radio" id="export-glb" name="export-format" value="glb" checked>
+                    <label for="export-glb">GLB (Binary GLTF)</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="export-gltf" name="export-format" value="gltf">
+                    <label for="export-gltf">GLTF (Text-based)</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="export-fbx" name="export-format" value="fbx">
+                    <label for="export-fbx">FBX</label>
+                </div>
+            </div>
+            <div class="export-buttons">
+                <button id="export-cancel">Cancel</button>
+                <button id="export-confirm">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
